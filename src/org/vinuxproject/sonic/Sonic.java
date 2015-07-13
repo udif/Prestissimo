@@ -993,4 +993,23 @@ public class Sonic {
         stream.readShortFromStream(samples, numSamples);
         return numSamples;
     }
+    public int availableBytes() {
+        return numOutputSamples * numChannels * 2;
+    }
+
+    public void putBytes(
+            byte inBuffer[],
+            int numBytes) {
+        writeBytesToStream(inBuffer, numBytes);
+    }
+
+    public int receiveBytes(
+            byte outBuffer[],
+            int maxBytes) {
+        return readBytesFromStream(outBuffer, maxBytes);
+    }
+
+    public void flush() {
+        flushStream();
+    }
 }
