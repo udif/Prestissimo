@@ -114,7 +114,7 @@ public class Track {
     public int getCurrentPosition() {
         switch (mCurrentState) {
         case STATE_ERROR:
-            error();
+            error(-1);
             break;
         default:
             return (int) (mExtractor.getSampleTime() / 1000);
@@ -131,7 +131,7 @@ public class Track {
         case STATE_INITIALIZED:
         case STATE_IDLE:
         case STATE_ERROR:
-            error();
+            error(-2);
             break;
         default:
             return (int) (mDuration / 1000);
@@ -142,7 +142,7 @@ public class Track {
     public boolean isPlaying() {
         switch (mCurrentState) {
         case STATE_ERROR:
-            error();
+            error(-3);
             break;
         default:
             return mCurrentState == STATE_STARTED;
@@ -159,7 +159,7 @@ public class Track {
             Log.d(TAG_TRACK, "State changed to STATE_PAUSED");
             break;
         default:
-            error();
+            error(-4);
         }
     }
 
@@ -171,7 +171,7 @@ public class Track {
                 initStream();
             } catch (IOException e) {
                 Log.e(TAG_TRACK, "Failed setting data source!", e);
-                error();
+                error(-5);
                 return;
             }
             mCurrentState = STATE_PREPARED;
@@ -185,7 +185,7 @@ public class Track {
             }
             break;
         default:
-            error();
+            error(-6);
         }
     }
 
@@ -204,7 +204,7 @@ public class Track {
                         initStream();
                     } catch (IOException e) {
                         Log.e(TAG_TRACK, "Failed setting data source!", e);
-                        error();
+                        error(-7);
                         return;
                     }
                     if (mCurrentState != STATE_ERROR) {
@@ -228,7 +228,7 @@ public class Track {
 
             break;
         default:
-            error();
+            error(-8);
         }
     }
 
@@ -246,7 +246,7 @@ public class Track {
             mTrack.flush();
             break;
         default:
-            error();
+            error(-9);
         }
     }
 
@@ -273,7 +273,7 @@ public class Track {
             mCurrentState = STATE_ERROR;
             Log.d(SoundService.TAG_API, "State changed to STATE_ERROR in start");
             if (mTrack != null) {
-                error();
+                error(-10);
             } else {
                 Log.d("start",
                         "Attempting to start while in idle after construction.  Not allowed by no callbacks called");
@@ -360,7 +360,7 @@ public class Track {
             t.start();
             break;
         default:
-            error();
+            error(-11);
         }
     }
 
@@ -372,7 +372,7 @@ public class Track {
             Log.d(TAG_TRACK, "Moving state to STATE_INITIALIZED");
             break;
         default:
-            error();
+            error(-12);
         }
     }
 
@@ -384,7 +384,7 @@ public class Track {
             Log.d(TAG_TRACK, "Moving state to STATE_INITIALIZED");
             break;
         default:
-            error();
+            error(-13);
         }
     }
 
@@ -408,7 +408,7 @@ public class Track {
     }
 
     public void error(int extra) {
-        Log.e(TAG_TRACK, "Moved to error state!");
+        Log.e(TAG_TRACK, "Moved to error state!" + extra);
         mCurrentState = STATE_ERROR;
         try {
             boolean handled = errorCallback.onError(
