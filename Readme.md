@@ -15,6 +15,27 @@ to control playback speed.
 * Android 4.1+
 * Error callback codes aren't helpful in most cases
 
+## Building
+First, lets create some missing files for the ant build
+
+	$ANDROID_SDK_HOME/tools/android update lib-project --target <id> --path $PRESTISSIMO_HOME
+
+Where:
+$PRESTISSIMO_HOME is where you cloned Prestissimo.
+<id> is your desired target id. You can get a list of your target ID's by running:
+	
+	$ANDROID_SDK_HOME/tools/android target list
+
+Now, that we got the extra files, simply run:
+
+	ant release
+
+or
+
+	ant debug
+	
+To build a release or debug version of the jar (respectively)
+
 ## Developers
 If you're interested in contributing to Prestissimo, great! Some notes to help get you started: <br/>
 Prestissimo is library used by other applications. Independent of an app using it, Prestissimo is of no value. The app that wishes to use Prestissimo simply has to include the Presto client jar (http://www.aocate.com/presto/), and import the Presto MediaPlayer instead of using the Android MediaPlayer (https://developer.android.com/reference/android/media/MediaPlayer.html). The Presto client reimplements most of the Android MediaPlayer APIs so that the implementing developer doesn't have to make many changes to accomodate the new library (in actuality, the Presto client is starting to show its age and hasn't kept up with changes to the Android APIs).
