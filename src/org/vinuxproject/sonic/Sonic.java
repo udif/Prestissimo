@@ -6,8 +6,8 @@
    This file is licensed under the Apache 2.0 license.
 */
 
-package sonic;
-
+package org.vinuxproject.sonic;
+	
 public class Sonic {
 
 	private static final int SONIC_MIN_PITCH = 65;
